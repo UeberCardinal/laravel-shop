@@ -10,7 +10,7 @@ class Product extends Model
 {
     use HasFactory;
     use Sluggable;
-    protected $fillable = ['name', 'description', 'slug', 'price', 'category_id', 'image'];
+    protected $fillable = ['name', 'description', 'slug', 'price', 'category_id', 'image', 'hit', 'new', 'recommend'];
 
 
     public function category()
@@ -28,7 +28,35 @@ class Product extends Model
         return $this->pivot->count * $this->price;
     }
 
+    public function setHitAttribute($value)
+    {
+        $this->attributes['hit'] = $value === 'on' ? 1 : 0;
+    }
 
+    public function setNewAttribute($value)
+    {
+        $this->attributes['new'] = $value === 'on' ? 1 : 0;
+    }
+
+    public function setRecommendAttribute($value)
+    {
+        $this->attributes['recommend'] = $value === 'on' ? 1 : 0;
+    }
+
+    public function isHit()
+    {
+        return $this->hit === 1;
+    }
+
+    public function isNew()
+    {
+        return $this->new === 1;
+    }
+
+    public function isRecommend()
+    {
+        return $this->recommend === 1;
+    }
 
 
 

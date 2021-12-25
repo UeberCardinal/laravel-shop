@@ -30,14 +30,14 @@
 
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    @auth
+
                         @admin
                     <li><a href="{{route('categories.index')}}">Категории</a></li>
                     <li><a href="{{route('products.index')}}">Товары</a></li>
                         @endadmin
 
                     <li><a href="@admin{{route('home')}} @else {{route('person.orders.index')}} @endadmin">Заказы</a></li>
-                    @endauth
+
                 </ul>
                 @guest()
                 <ul class="nav navbar-nav navbar-right">

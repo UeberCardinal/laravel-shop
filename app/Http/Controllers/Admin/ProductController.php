@@ -88,6 +88,7 @@ class ProductController extends Controller
     public function update(StoreProductRequest $request, $id)
     {
         $params = $request->all();
+
         $product = Product::find($id);
         if (!is_null($request->image)){
             if (!is_null($product->image)) {
@@ -96,6 +97,12 @@ class ProductController extends Controller
             $imgPath = $request->file('image')->store('/products');
             $params['image'] = $imgPath;
         }
+        foreach (['new', 'hit', 'recommend'] as $fieldName) {
+            if (!isset($params[$fieldName])) {
+                $params[$fieldName] = 0;
+            }
+        }
+
         $product->update($params);
         return redirect()->route('products.index')->with('success', 'Продукт обновлен');
     }

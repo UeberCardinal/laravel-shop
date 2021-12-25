@@ -47,8 +47,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
-
 Route::get('/', [MainController::class, 'index'])->name('home.index');
 Route::get('/categories', [MainController::class, 'categories'])->name('categories');
 Route::get('/categories/{category}', [MainController::class, 'category'])->name('category');

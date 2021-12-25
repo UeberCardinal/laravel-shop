@@ -2,16 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductsFilterRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MainController extends Controller
 {
-    public function index()
+    public function index(ProductsFilterRequest $request)
     {
-     //   session()->flush();
-     //   dd(session());
+            $productsQuery = Product::with('category');
+
+            if($request->filled('price_from')) {
+                $productsQuery->where('price', '>=', $request->price_from);
+            }
+
+            if($request->filled('price_to')) {
+                $productsQuery->where('price', '<=', $request->price_to);
+            }
+
+            if($request->filled('hit')) {
+
+                $productsQuery->where('hit',  1);
+            }
+
+            if($request->filled('new')) {
+                $productsQuery->where('new',  1);
+            }
+
+            if($request->filled('recommend')) {
+                $productsQuery->where('recommend',  1);
+            }
+
+            $products = $productsQuery->paginate(6);
+
+            return view('index', compact('products'));
+
+
+
+
         $products = Product::paginate(6);
         return view('index', compact('products'));
     }

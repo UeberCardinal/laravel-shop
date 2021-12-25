@@ -36,6 +36,17 @@
                 @endforeach
             </select>
         </div>
+        @foreach([
+    'hit' => 'Хит продаж',
+    'new' => 'Новинка',
+    'recommend' => 'Рекомендуемые',
+    ] as $field => $title)
+        <div class="form-group">
+            <label for="exampleInputEmail1">{{$title}}:</label>
+            <input name="{{$field}}" type="checkbox" class="checkbox-inline" id="exampleInputEmail1">
+
+        </div>
+        @endforeach
         <div class="form-group">
             <label for="exampleInputPassword1">Картинка</label>
             <input name="image" type="file" class="form-control" id="exampleInputPassword1">
