@@ -30,6 +30,10 @@
             <input value="{{$product->price}}" name="price" type="text" class="form-control" id="exampleInputPassword1">
         </div>
         <div class="form-group">
+            <label for="exampleInputPassword1">Количество</label>
+            <input name="count" value="{{$product->count}}" type="text" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
             <label for="exampleFormControlSelect1">Категории</label>
             <select name="category_id" class="form-control" id="exampleFormControlSelect1">
                 @foreach($categories as $category)

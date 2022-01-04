@@ -14,6 +14,7 @@ class MainController extends Controller
 {
     public function index(ProductsFilterRequest $request)
     {
+        //    session()->flush();
             $productsQuery = Product::with('category');
 
             if($request->filled('price_from')) {
@@ -24,17 +25,10 @@ class MainController extends Controller
                 $productsQuery->where('price', '<=', $request->price_to);
             }
 
-            if($request->filled('hit')) {
-
-                $productsQuery->where('hit',  1);
-            }
-
-            if($request->filled('new')) {
-                $productsQuery->where('new',  1);
-            }
-
-            if($request->filled('recommend')) {
-                $productsQuery->where('recommend',  1);
+            foreach (['hit', 'new', 'recommend'] as $field) {
+                if ($request->has($field)) {
+                    $productsQuery->$field();
+                }
             }
 
             $products = $productsQuery->paginate(6);
@@ -64,7 +58,7 @@ class MainController extends Controller
 
     public function product($categorySlug, $productSlug)
     {
-        $product = Product::where('slug', $productSlug)->first();
+        $product = Product::withTrashed()->where('slug', $productSlug)->first();
         return view('product/product', compact('product'));
     }
 

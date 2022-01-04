@@ -26,6 +26,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Slug</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Count</th>
                     <th scope="col">Price</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -38,6 +39,7 @@
                     <td>{{$product->name}}</td>
                     <td>{{$product->slug}}</td>
                     <td>{{$product->description}}</td>
+                    <td>{{$product->count}}</td>
                     <td>{{$product->price}}</td>
                     <td>
                         <a class="btn btn-info" href="{{route('products.edit', ['product' => $product->id])}}"><i class="fas fa-pencil-alt"></i></a>

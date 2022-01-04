@@ -1,11 +1,7 @@
 @extends('master')
 @section('content')
 <div class="starter-template">
-    @if(\Illuminate\Support\Facades\Session::has('error'))
-        <div class="alert alert-warning" role="alert">
-            {{\Illuminate\Support\Facades\Session::get('error')}}
-        </div>
-    @endif
+
 {{--        @if(\Illuminate\Support\Facades\Session::has('success'))
             <div class="alert alert-success" role="alert">
                 {{\Illuminate\Support\Facades\Session::get('success')}}
@@ -30,7 +26,7 @@
             </thead>
             <tbody>
             @if(isset($order))
-            @foreach($order->products as $product)
+            @foreach($order->products()->with('category')->get() as $product)
             <tr>
                 <td>
                     <a href="{{route('product', [$product->category->slug, $product->slug])}}">
@@ -62,7 +58,7 @@
             <tr>
                 <td colspan="3">Общая стоимость:</td>
                 <td>
-                    {{$order->getFullPrice()}}₽
+                    {{$order->getFullSum()}}₽
                 </td>
             </tr>
             </tbody>

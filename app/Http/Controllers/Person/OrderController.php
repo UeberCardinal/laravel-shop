@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Auth::user()->orders()->where('status', 1)->get();
+        $orders = Auth::user()->orders()->active()->get();
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -21,6 +21,7 @@ class OrderController extends Controller
             return back();
         }
         $order = Order::find($id);
+
 
         return view('admin.orders.show', compact('order'));
     }

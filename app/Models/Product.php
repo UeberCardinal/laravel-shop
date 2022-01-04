@@ -5,12 +5,14 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
     use HasFactory;
     use Sluggable;
-    protected $fillable = ['name', 'description', 'slug', 'price', 'category_id', 'image', 'hit', 'new', 'recommend'];
+    protected $fillable = ['name', 'description', 'slug', 'price', 'category_id', 'image', 'hit', 'new', 'recommend', 'count'];
 
 
     public function category()
@@ -25,7 +27,30 @@ class Product extends Model
 
     public function sumProduct()
     {
-        return $this->pivot->count * $this->price;
+        if (!is_null($this->pivot)) {
+            return $this->pivot->count * $this->price;
+        }
+        return $this->price;
+    }
+
+    public function scopeHit($query)
+    {
+        return $query->where('hit', 1);
+    }
+
+    public function scopeNew($query)
+    {
+        return $query->where('new', 1);
+    }
+
+    public function scopeRecommend($query)
+    {
+        return $query->where('recommend', 1);
+    }
+
+    public function isAvailable()
+    {
+        return $this->count > 0 && !$this->trashed();
     }
 
     public function setHitAttribute($value)
@@ -57,8 +82,6 @@ class Product extends Model
     {
         return $this->recommend === 1;
     }
-
-
 
     public function sluggable(): array
     {
