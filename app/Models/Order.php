@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'phone', 'status'];
+    protected $fillable = ['name', 'phone', 'status', 'user_id'];
 
     public function products()
     {
@@ -49,6 +49,20 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function saveMyOrder($name, $phone)
+    {
+        if ($this->status == 0) {
+            $this->name = $name;
+            $this->phone = $phone;
+            $this->status = 1;
+            $this->save();
+            session()->forget('orderId');
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
