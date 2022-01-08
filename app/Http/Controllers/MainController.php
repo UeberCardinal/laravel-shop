@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductsFilterRequest;
+use App\Http\Requests\SubscriptionRequest;
 use App\Models\Category;
+use App\Models\Models\Subscription;
 use App\Models\Product;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -60,6 +63,24 @@ class MainController extends Controller
     {
         $product = Product::withTrashed()->where('slug', $productSlug)->first();
         return view('product/product', compact('product'));
+    }
+
+    public function subscribe(SubscriptionRequest $request, Product $product)
+    {
+        Subscription::create([
+            'email' => $request->email,
+            'product_id' => $product->id
+        ]);
+
+
+        return redirect()->back()->with('success', 'Спасибо, мы свяжимся с Вами при наличии товара');
+    }
+
+    public function changeLocale($locale)
+    {
+        session(['locale' => $locale]);
+        App::setLocale($locale);
+        return redirect()->back();
     }
 
 
