@@ -49,8 +49,8 @@
                         </form>
                     </div>
                 </td>
-                <td>{{$product->price}} ₽</td>
-                <td>{{$product->sumProduct()}} ₽</td>
+                <td>{{$product->price}}  {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</td>
+                <td>{{$product->sumProduct()}}  {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</td>
 
             </tr>
             @endforeach
@@ -58,7 +58,7 @@
             <tr>
                 <td colspan="3">Общая стоимость:</td>
                 <td>
-                    {{$order->getFullSum()}}₽
+                    {{$order->getFullSum()}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}
                 </td>
             </tr>
             </tbody>

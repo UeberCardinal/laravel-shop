@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,9 +12,9 @@ class Category extends Model
 {
     use HasFactory;
     use Sluggable;
-
+    use Translatable;
     protected $fillable = [
-        'name', 'slug', 'description', 'image'
+        'name', 'slug', 'description', 'image', 'name_en', 'description_en'
     ];
 
 

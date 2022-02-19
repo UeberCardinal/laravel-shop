@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Translatable;
+use App\Services\CurrencyConversion;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +14,9 @@ class Product extends Model
     use SoftDeletes;
     use HasFactory;
     use Sluggable;
-    protected $fillable = ['name', 'description', 'slug', 'price', 'category_id', 'image', 'hit', 'new', 'recommend', 'count'];
+    use Translatable;
+    protected $fillable = ['name', 'description', 'slug', 'price', 'category_id', 'image', 'hit', 'new', 'recommend',
+        'count', 'name_en', 'description_en'];
 
 
     public function category()
@@ -81,6 +85,16 @@ class Product extends Model
     public function isRecommend()
     {
         return $this->recommend === 1;
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return round(CurrencyConversion::convert($value), 2);
+    }
+
+    public function getCurrencyAttribute()
+    {
+        session('currency', 'RUB');
     }
 
     public function sluggable(): array

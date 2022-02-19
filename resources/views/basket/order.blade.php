@@ -4,7 +4,7 @@
         <h1>Подтвердите заказ:</h1>
         <div class="container">
             <div class="row justify-content-center">
-                <p>Общая стоимость: <b>{{$order->calculateFullSum()}} ₽.</b></p>
+                <p>Общая стоимость: <b>{{$order->calculateFullSum()}}  {{\App\Services\CurrencyConversion::getCurrencySymbol()}}.</b></p>
                 <form action="{{route('basketConfirm')}}" method="POST">
                     @csrf
                     <div>

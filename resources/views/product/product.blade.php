@@ -1,11 +1,11 @@
 @extends('master')
 @section('content')
     <div class="starter-template">
-        <h1>{{$product->name}}</h1>
-        <h2>{{$product->category->name}}</h2>
-        <p>Цена: <b>{{$product->price}} ₽</b></p>
+        <h1>{{$product->__('name')}}</h1>
+        <h2>{{$product->category->__('name')}}</h2>
+        <p>Цена: <b>{{$product->price}}  {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</b></p>
         <img src="http://internet-shop.tmweb.ru/storage/products/iphone_x.jpg">
-        <p>{{$product->description}}</p>
+        <p>{{$product->__('description')}}</p>
         @if($product->isAvailable())
             <form action="{{route('addToBasket', $product->id)}}" method="POST">
                 @csrf

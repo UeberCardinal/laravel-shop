@@ -22,8 +22,16 @@
             <input value="{{$product->name}}" name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         </div>
         <div class="form-group">
+            <label for="exampleInputEmail1">Название продукта en</label>
+            <input value="{{$product->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
             <label for="exampleInputPassword1">Описание</label>
             <input value="{{$product->description}}" name="description" type="text" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Описание en</label>
+            <input value="{{$product->description_en}}" name="description_en" type="text" class="form-control" id="exampleInputPassword1">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Цена</label>

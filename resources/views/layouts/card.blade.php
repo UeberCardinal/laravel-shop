@@ -15,9 +15,9 @@
                 </div>
                 <img src="https://dummyimage.com/400x600/decede/aeb2e8.jpg&text=Test">
                 <div class="caption">
-                    <h3>{{$product->name}}</h3>
-                    <p>{{$product->category->name}} </p>
-                    <p>{{$product->price}} ₽</p>
+                    <h3>{{$product->__('name')}}</h3>
+                    <p>{{$product->category->__('name')}} </p>
+                    <p>{{$product->price}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</p>
                     <form action="{{route('addToBasket', $product->id)}}" method="post">
                         @csrf
                         @if($product->isAvailable())

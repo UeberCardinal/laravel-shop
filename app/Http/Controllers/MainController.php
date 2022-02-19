@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductsFilterRequest;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Category;
+use App\Models\Currency;
 use App\Models\Models\Subscription;
 use App\Models\Product;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 
 class MainController extends Controller
 {
     public function index(ProductsFilterRequest $request)
     {
+
         //    session()->flush();
+
             $productsQuery = Product::with('category');
 
             if($request->filled('price_from')) {
@@ -35,11 +35,7 @@ class MainController extends Controller
             }
 
             $products = $productsQuery->paginate(6);
-
             return view('index', compact('products'));
-
-
-
 
         $products = Product::paginate(6);
         return view('index', compact('products'));
@@ -80,6 +76,13 @@ class MainController extends Controller
     {
         session(['locale' => $locale]);
         App::setLocale($locale);
+        return redirect()->back();
+    }
+
+    public function changeCurrency($currencyCode)
+    {
+        $currency = Currency::byCode($currencyCode)->firstOrFail();
+        session(['currency' => $currency->code]);
         return redirect()->back();
     }
 
