@@ -31,6 +31,7 @@ class BasketController extends Controller
             session()->flash('warning', "Товар недоступен");
             return redirect()->route('basket');
         }
+
         return view('basket.order', compact('order'));
     }
 
@@ -57,6 +58,7 @@ class BasketController extends Controller
     public function basketConfirm(Request $request)
     {
         $email = Auth::check() ? Auth::user()->email : $request->email;
+
         if ((new Basket())->saveOrder($request->name, $request->phone, $email)) {
             session()->flash('success', 'Товар принят в обработку');
             session()->forget('full_order_sum');

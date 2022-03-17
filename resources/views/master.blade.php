@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,10 +29,12 @@
                 <li><a href="{{route('locale', __('main.set_lang'))}}">{{__('main.set_lang')}}</a></li>
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{\App\Services\CurrencyConversion::getCurrencySymbol()}}<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{$currencySymbol}}<span
+                            class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        @foreach(\App\Services\CurrencyConversion::getCurrencies() as $currency)
-                        <li><a href="{{route('currency', $currency->code)}}">{{$currency->symbol}}</a></li>
+                        @foreach($currencies as $currency)
+                            <li><a href="{{route('currency', $currency->code)}}">{{$currency->symbol}}</a></li>
                         @endforeach
                     </ul>
                 </li>
@@ -41,16 +42,16 @@
 
             <ul class="nav navbar-nav navbar-right">
                 @guest()
-                <li><a href="{{route('login')}}">Войти</a></li>
+                    <li><a href="{{route('login')}}">Войти</a></li>
                 @endguest
                 @auth
                     @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
-                            <li><a href="{{route('home')}}">Панель администратора</a></li>
-                        @else
-                            <li><a href="{{route('person.orders.index')}}">Мои заказы</a></li>
-                        @endif
+                        <li><a href="{{route('home')}}">Панель администратора</a></li>
+                    @else
+                        <li><a href="{{route('person.orders.index')}}">Мои заказы</a></li>
+                    @endif
 
-                <li><a href="{{route('get-logout')}}">Выйти</a></li>
+                    <li><a href="{{route('get-logout')}}">Выйти</a></li>
                 @endauth
             </ul>
         </div>
@@ -64,5 +65,25 @@
 
     @yield('content')
 </div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6"><p>Категории товаров</p>
+                <ul>
+                    @foreach($categories as $category)
+                    <li><a href="{{route('category', $category->slug)}}">{{$category->__('name')}}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="col-lg-6"><p>Самые популярные товары</p>
+                <ul>
+                    @foreach($bestProducts as $bestProduct)
+                    <li><a href="{{route('product', [$bestProduct->category->slug, $bestProduct->slug])}}">{{$bestProduct->name}}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

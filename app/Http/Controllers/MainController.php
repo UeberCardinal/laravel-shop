@@ -35,16 +35,17 @@ class MainController extends Controller
             }
 
             $products = $productsQuery->paginate(6);
+
             return view('index', compact('products'));
 
-        $products = Product::paginate(6);
-        return view('index', compact('products'));
+      /*  $products = Product::paginate(6);
+
+        return view('index', compact('products', 'categories'));*/
     }
 
     public function categories()
     {
-        $categories = Category::get();
-        return view('category/categories', compact('categories'));
+        return view('category/categories');
     }
 
     public function category($category)

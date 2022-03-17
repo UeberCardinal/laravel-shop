@@ -24,6 +24,17 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    //TODO: check table name for relation
+    public function skus()
+    {
+        return $this->hasMany(Sku::class);
+    }
+
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class);
+    }
+
     public function orders()
     {
         return $this->belongsToMany(Order::class);

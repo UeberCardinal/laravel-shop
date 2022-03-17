@@ -1,7 +1,7 @@
-@extends('admin.layouts.layout')
+@extends('auth.layouts.master')
 @section('title', 'Категории')
 @section('content')
-    <div class="container">
+
         <div style="margin-top:15px; ">
         <div>
             <a href="{{route('categories.create')}}"><button type="button" class="btn btn-success">Добавить новую категорию</button></a>
@@ -51,7 +51,4 @@
             </table>
             {{ $categories->links() }}
         </div>
-
-    </div>
-
 @endsection

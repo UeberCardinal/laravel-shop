@@ -1,7 +1,7 @@
-@extends('admin.layouts.layout')
+@extends('auth.layouts.master')
 @section('title', 'Продукты')
 @section('content')
-    <div class="container">
+
         <div style="margin-top:15px; ">
             @if(\Illuminate\Support\Facades\Session::has('success'))
                 <div class="alert alert-success" role="alert">
@@ -58,7 +58,5 @@
             </table>
             {{ $products->links() }}
         </div>
-
-    </div>
 
 @endsection

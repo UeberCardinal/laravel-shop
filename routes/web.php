@@ -3,6 +3,8 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\PropertyOptionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\OrderController;
@@ -47,6 +49,8 @@ Route::middleware(['set_locale'])->group(function () {
                 Route::get('/orders/show/{id}', [OrderController::class, 'show'])->name('order.show');
                 Route::resource('categories',CategoryController::class);
                 Route::resource('products',ProductController::class);
+                Route::resource('properties', PropertyController::class);
+                Route::resource('properties/{property}/property-options', PropertyOptionController::class);
             });
 
         });

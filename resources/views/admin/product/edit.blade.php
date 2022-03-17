@@ -1,7 +1,7 @@
-@extends('admin.layouts.layout')
+@extends('auth.layouts.master')
 @section('content')
 
-<div class="container">
+
     <div style="margin-top: 65px">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -69,7 +69,7 @@
         <button  type="submit" class="btn btn-primary">Submit</button>
     </form>
     </div>
-</div>
+
 
 
 @endsection

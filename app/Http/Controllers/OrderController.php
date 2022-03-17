@@ -9,6 +9,7 @@ class OrderController extends Controller
 {
     public function index()
     {
+
         $orders = Order::active()->paginate(15);
         return view('admin.orders.index', compact('orders'));
     }
