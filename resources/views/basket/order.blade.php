@@ -2,7 +2,7 @@
 @section('content')
     <div class="starter-template">
         <h1>Подтвердите заказ:</h1>
-        <div class="container">
+
             <div class="row justify-content-center">
                 <p>Общая стоимость: <b>{{$order->getFullSum()}}  {{\App\Services\CurrencyConversion::getCurrencySymbol()}}.</b></p>
                 <form action="{{route('basketConfirm')}}" method="POST">
@@ -10,7 +10,7 @@
                     <div>
                         <p>Укажите свои имя и номер телефона, чтобы наш менеджер мог с вами связаться:</p>
                         <input type="hidden" name="status" value="1">
-                        <div class="container">
+
                             <div class="form-group">
                                 <label for="name" class="control-label col-lg-offset-3 col-lg-2">Имя: </label>
                                 <div class="col-lg-4">
@@ -44,11 +44,10 @@
                                      <input type="text" name="email" id="email" value="" class="form-control">
                                  </div>
                              </div>--}}
-                        </div>
                         <br>
                         <input type="submit" class="btn btn-success" value="Подтвердите заказ">
                     </div>
                 </form>
             </div>
-        </div>
+
 @endsection

@@ -34,18 +34,20 @@
             <input value="{{$product->description_en}}" name="description_en" type="text" class="form-control" id="exampleInputPassword1">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Цена</label>
-            <input value="{{$product->price}}" name="price" type="text" class="form-control" id="exampleInputPassword1">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Количество</label>
-            <input name="count" value="{{$product->count}}" type="text" class="form-control" id="exampleInputPassword1">
-        </div>
-        <div class="form-group">
             <label for="exampleFormControlSelect1">Категории</label>
             <select name="category_id" class="form-control" id="exampleFormControlSelect1">
                 @foreach($categories as $category)
                     <option @if($category->id == $product->category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Свойства</label>
+            <select name="property_id[]" class="form-control" multiple>
+                @foreach($properties as $property)
+                    <option
+                        @if($product->properties->contains('id', $property->id)) selected @endif
+                            value="{{$property->id}}">{{$property->name}}</option>
                 @endforeach
             </select>
         </div>

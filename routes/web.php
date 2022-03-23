@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\PropertyOptionController;
+use App\Http\Controllers\Admin\SkuController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\OrderController;
@@ -49,6 +50,7 @@ Route::middleware(['set_locale'])->group(function () {
                 Route::get('/orders/show/{id}', [OrderController::class, 'show'])->name('order.show');
                 Route::resource('categories',CategoryController::class);
                 Route::resource('products',ProductController::class);
+                Route::resource('products/{product}/skus',SkuController::class);
                 Route::resource('properties', PropertyController::class);
                 Route::resource('properties/{property}/property-options', PropertyOptionController::class);
             });
@@ -59,22 +61,22 @@ Route::middleware(['set_locale'])->group(function () {
     Route::get('/', [MainController::class, 'index'])->name('home.index');
     Route::get('/categories', [MainController::class, 'categories'])->name('categories');
     Route::get('/categories/{category}', [MainController::class, 'category'])->name('category');
-    Route::post('subscription/{product}', [MainController::class, 'subscribe'])->name('subscription');
+    Route::post('subscription/{sku}', [MainController::class, 'subscribe'])->name('subscription');
 
     Route::group(['prefix' => 'basket'], function (){
-        Route::post('/add/{product}', [BasketController::class, 'addToBasket'])->name('addToBasket');
+        Route::post('/add/{sku}', [BasketController::class, 'addToBasket'])->name('addToBasket');
         Route::group([
             'middleware' => 'basket_not_empty',
         ], function () {
             Route::get('/place', [BasketController::class, 'basketPlace'])->name('basketPlace');
             Route::get('/', [BasketController::class, 'basket'])->name('basket');
             Route::post('/place', [BasketController::class, 'basketConfirm'])->name('basketConfirm');
-            Route::post('/delete/{product}', [BasketController::class, 'removeFromBasket'])->name('removeFromBasket');
+            Route::post('/delete/{sku}', [BasketController::class, 'removeFromBasket'])->name('removeFromBasket');
         });
 
     });
 
-    Route::get('/{category}/{product}', [MainController::class, 'product'])->name('product');
+    Route::get('/{category}/{product}/{sku}', [MainController::class, 'sku'])->name('sku');
 
 });
 

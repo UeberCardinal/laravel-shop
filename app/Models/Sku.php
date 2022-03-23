@@ -16,9 +16,27 @@ class Sku extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function skus()
+    public function propertyOption()
     {
-        return $this->belongsToMany(PropertyOption::class);
+        return $this->belongsToMany(PropertyOption::class, 'sku_property_option')->withTimestamps();
+    }
+
+    public function isAvailable()
+    {
+        return !$this->product->trashed() && $this->count > 0;
+    }
+
+    public function getPriceForCount()
+    {
+        if (!is_null($this->pivot)) {
+            return $this->pivot->count * $this->price;
+        }
+        return $this->price;
+    }
+
+    public function sumProduct()
+    {
+        return $this->pivot->count * $this->pivot->price;
     }
 }
 

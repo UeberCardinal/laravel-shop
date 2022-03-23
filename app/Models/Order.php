@@ -10,9 +10,9 @@ class Order extends Model
     use HasFactory;
     protected $fillable = ['name', 'phone', 'status', 'user_id','currency_id', 'sum'];
 
-    public function products()
+    public function skus()
     {
-        return $this->belongsToMany(Product::class)->withPivot('count', 'price')->withTimestamps();
+        return $this->belongsToMany(Sku::class)->withPivot('count', 'price')->withTimestamps();
     }
 
     public function currency()
@@ -28,8 +28,8 @@ class Order extends Model
     public function calculateFullSum()
     {
         $sum = 0;
-        foreach ($this->products()->withTrashed()->get() as $product){
-            $sum += $product->sumProduct();
+        foreach ($this->skus()->withTrashed()->get() as $sku){
+            $sum += $sku->sumProduct();
 
         }
         return $sum;
@@ -38,8 +38,8 @@ class Order extends Model
     public function getFullSum()
     {
         $sum = 0;
-        foreach ($this->products as $product) {
-            $sum += $product->price * ($product->countInOrder ?? 1);
+        foreach ($this->skus as $sku) {
+            $sum += $sku->price * ($sku->countInOrder ?? 1);
         }
         return $sum;
     //    return session('full_order_sum', 0);
@@ -56,12 +56,12 @@ class Order extends Model
         $this->phone = $phone;
         $this->status = 1;
         $this->sum = $this->getFullSum();
-        $products = $this->products;
+        $skus = $this->skus;
         $this->save();
-        foreach ($products as $productInOrder){
-            $this->products()->attach($productInOrder, [
-                'count' =>  $productInOrder->countInOrder,
-                'price' => $productInOrder->price
+        foreach ($skus as $skuInOrder){
+            $this->skus()->attach($skuInOrder, [
+                'count' =>  $skuInOrder->countInOrder,
+                'price' => $skuInOrder->price
             ]);
         }
 

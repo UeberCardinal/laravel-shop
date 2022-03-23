@@ -2,18 +2,20 @@
 @section('content')
     <div class="starter-template">
         <h1>
-            {{$categoryObj->name}}
+            {{$category->name}}
         </h1>
         <h2>
-            {{$categoryObj->code}}
+            {{$category->code}}
         </h2>
         <p>
-            {{$categoryObj->description}}
+            {{$category->description}}
         </p>
         <p>
-            Товаров в категории:{{$categoryObj->products->count()}}
+            Товаров в категории:{{$category->products->count()}}
         </p>
-        @include('layouts.card')
-        {{$products->links()}}
+        @foreach($category->products->map->skus->flatten() as $sku)
+        @include('layouts.card', compact('sku'))
+        @endforeach
+        {{$skus->links()}}
     </div>
 @endsection

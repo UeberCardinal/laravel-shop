@@ -1,6 +1,6 @@
 <p>Уважаемый {{$name}}</p>
 <p>Ваш заказ на сумму {{$fullSum}} руб. создан.</p>
-@foreach($order->products as $product)
-    {{$product->name}}<br>
-    {{$product->price}}<br>
+@foreach($order->skus as $sku)
+    {{$sku->name}}<br>
+    {{$sku->price}}<br>
 @endforeach

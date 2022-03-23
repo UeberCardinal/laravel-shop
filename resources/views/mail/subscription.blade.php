@@ -1,3 +1,3 @@
-Уважаемый клиент, товар {{$product->name}} появился в наличии
+Уважаемый клиент, товар {{$sku->name}} появился в наличии
 
-<a href="{{route('product', [$product->category->slug, $product->slug])}}"> </a>
+<a href="{{route('product', [$sku->category->slug, $sku->slug])}}"> </a>

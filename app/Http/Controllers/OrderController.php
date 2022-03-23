@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        $products = $order->products()->withTrashed()->get();
-        return view('admin.orders.show', compact('order', 'products'));
+        $skus = $order->skus;
+        return view('admin.orders.show', compact('order', 'skus'));
     }
 }

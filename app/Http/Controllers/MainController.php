@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Models\Subscription;
 use App\Models\Product;
+use App\Models\Sku;
 use Illuminate\Support\Facades\App;
 
 
@@ -16,9 +17,9 @@ class MainController extends Controller
     public function index(ProductsFilterRequest $request)
     {
 
-        //    session()->flush();
+            $skusQuery = Sku::query();
 
-            $productsQuery = Product::with('category');
+    /*        $productsQuery = Product::with('category');
 
             if($request->filled('price_from')) {
                 $productsQuery->where('price', '>=', $request->price_from);
@@ -33,10 +34,10 @@ class MainController extends Controller
                     $productsQuery->$field();
                 }
             }
-
-            $products = $productsQuery->paginate(6);
-
-            return view('index', compact('products'));
+            $
+            $products = $productsQuery->paginate(6);*/
+            $skus = $skusQuery->paginate(6);
+            return view('index', compact('skus'));
 
       /*  $products = Product::paginate(6);
 
@@ -48,25 +49,33 @@ class MainController extends Controller
         return view('category/categories');
     }
 
-    public function category($category)
+    public function category($category )
     {
-        $categoryObj = Category::where('slug', $category)->first();
-        $products = Product::where('category_id', $categoryObj->id)->paginate(6);
+        $category = Category::where('slug', $category)->first();
+       // $products = Product::where('category_id', $categoryObj->id)->paginate(6);
+        $skus = Sku::query()->paginate(10);
 
-        return view('category/category', compact('categoryObj', 'products'));
+        return view('category/category', compact('category', 'skus'));
     }
 
-    public function product($categorySlug, $productSlug)
+    public function sku($categorySlug, $productSlug, Sku $sku)
     {
+        if ($sku->product->slug != $productSlug){
+            abort(404, 'Product not found');
+        }
+
+        if ($sku->product->category->slug != $categorySlug){
+            abort(404, 'Category not found');
+        }
         $product = Product::withTrashed()->where('slug', $productSlug)->first();
-        return view('product/product', compact('product'));
+        return view('product/product', compact('sku'));
     }
 
-    public function subscribe(SubscriptionRequest $request, Product $product)
+    public function subscribe(SubscriptionRequest $request, Sku $sku)
     {
         Subscription::create([
             'email' => $request->email,
-            'product_id' => $product->id
+            'sku_id' => $sku->id
         ]);
 
 

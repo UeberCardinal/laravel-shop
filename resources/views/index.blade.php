@@ -38,8 +38,10 @@
                 </div>
             </div>
         </form>
+        @foreach($skus as $sku)
         @include('layouts.card')
-        {{ $products->appends([
+        @endforeach
+        {{ $skus->appends([
     'price_from' => request()->price_from,
     'price_to'   => request()->price_to,
     'hit'        => request()->hit,

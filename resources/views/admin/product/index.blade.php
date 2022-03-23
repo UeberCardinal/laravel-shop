@@ -43,6 +43,7 @@
                     <td>{{$product->price}}</td>
                     <td>
                         <a class="btn btn-info" href="{{route('products.edit', ['product' => $product->id])}}"><i class="fas fa-pencil-alt"></i></a>
+                        <a class="btn btn-primary" href="{{route('skus.index', [$product])}}">Skus</a>
                         <form method="post" action="{{route('products.destroy', ['product' => $product->id])}}">
                             @csrf
                             @method('delete')

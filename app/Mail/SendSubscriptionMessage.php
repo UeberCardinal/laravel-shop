@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Product;
+use App\Models\Sku;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,15 +12,15 @@ use Illuminate\Queue\SerializesModels;
 class SendSubscriptionMessage extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $product;
+    protected $sku;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Product $product)
+    public function __construct(Sku $sku)
     {
-        $this->product = $product;
+        $this->sku = $sku;
     }
 
     /**
@@ -29,6 +30,6 @@ class SendSubscriptionMessage extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.subscription', ['product' => $this->product]);
+        return $this->view('mail.subscription', ['sku' => $this->sku]);
     }
 }

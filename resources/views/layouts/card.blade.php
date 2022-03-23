@@ -1,37 +1,41 @@
-<div class="row">
-    @foreach($products as $product)
+
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
                 <div class="labels">
-                    @if($product->isHit())
+                @if($sku->product->isHit())
                         <span class="badge badge-danger">Хит</span>
                     @endif
-                    @if($product->isNew())
+                    @if($sku->product->isNew())
                         <span class="badge badge-success">Новинка</span>
                     @endif
-                    @if($product->isRecommend())
+                    @if($sku->product->isRecommend())
                         <span class="badge badge-warning">Рекомендуемые</span>
                     @endif
                 </div>
                 <img src="https://dummyimage.com/400x600/decede/aeb2e8.jpg&text=Test">
                 <div class="caption">
-                    <h3>{{$product->__('name')}}</h3>
-                    <p>{{$product->category->__('name')}} </p>
-                    <p>{{$product->price}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</p>
-                    <form action="{{route('addToBasket', $product->id)}}" method="post">
+                    <h3>{{$sku->product->__('name')}}</h3>
+                    @isset($sku->product->properties)
+                        @foreach($sku->propertyOption as $propertyOption)
+                            <h5>{{$propertyOption->property->name}}: {{$propertyOption->name}}</h5>
+                        @endforeach
+                    @endisset
+                    <p>{{$sku->product->category->__('name')}} </p>
+                    <p>{{$sku->price}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</p>
+                    <form action="{{route('addToBasket', $sku)}}" method="post">
                         @csrf
-                        @if($product->isAvailable())
+                        @if($sku->isAvailable())
                             <button type="submit" class="btn btn-primary" role="button">В корзину</button>
                         @else
                             Нет в наличии
                             @endif
 
-                        <a href="{{route('product', [$product->category->slug, $product->slug])}}"
+                        <a href="{{route('sku', [$sku->product->category->slug, $sku->product->slug, $sku])}}"
                            class="btn btn-default"
                            role="button">Подробнее</a>
                     </form>
                 </div>
             </div>
         </div>
-    @endforeach
-</div>
+
+

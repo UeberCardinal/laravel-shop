@@ -3,7 +3,7 @@
 namespace App\Models\Models;
 
 use App\Mail\SendSubscriptionMessage;
-use App\Models\Product;
+use App\Models\Sku;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
@@ -11,23 +11,23 @@ use Illuminate\Support\Facades\Mail;
 class Subscription extends Model
 {
     use HasFactory;
-    protected $fillable = ['email', 'product_id'];
+    protected $fillable = ['email', 'sku_id'];
 
-    public function scopeActiveByProductId($query, $productId)
+    public function scopeActiveBySkuId($query, $skuId)
     {
-        return $query->where('status', 0)->where('product_id', $productId);
+        return $query->where('status', 0)->where('sku_id', $skuId);
     }
-    public function product()
+    public function sku()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Sku::class);
     }
 
-    public static function sendEmailBySubscription(Product $product)
+    public static function sendEmailBySubscription(Sku $sku)
     {
-        $subscriptions = self::activeByProductId($product->id)->get();
+        $subscriptions = self::activeBySkuId($sku->id)->get();
 
         foreach ($subscriptions as $subscription) {
-            Mail::to($subscription->email)->send(new SendSubscriptionMessage($product));
+            Mail::to($subscription->email)->send(new SendSubscriptionMessage($sku));
             $subscription->status = 1;
             $subscription->save();
         }

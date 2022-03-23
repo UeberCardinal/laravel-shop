@@ -65,8 +65,8 @@
 
     @yield('content')
 </div>
-<footer>
-    <div class="container">
+<footer style="display:flex; justify-content: center">
+
         <div class="row">
             <div class="col-lg-6"><p>Категории товаров</p>
                 <ul>
@@ -77,13 +77,13 @@
             </div>
             <div class="col-lg-6"><p>Самые популярные товары</p>
                 <ul>
-                    @foreach($bestProducts as $bestProduct)
+                 {{--   @foreach($bestProducts as $bestProduct)
                     <li><a href="{{route('product', [$bestProduct->category->slug, $bestProduct->slug])}}">{{$bestProduct->name}}</a></li>
-                    @endforeach
+                    @endforeach--}}
                 </ul>
             </div>
         </div>
-    </div>
+
 </footer>
 </body>
 </html>

@@ -7,6 +7,7 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +34,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::get();
-        return view('admin.product.create', compact('categories'));
+        $properties = Property::get();
+        return view('admin.product.create', compact('categories', 'properties'));
     }
 
     /**
@@ -74,8 +76,11 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+        $properties = Property::get();
         $categories = Category::get();
-        return view('admin.product.edit', compact('categories', 'product'));
+
+
+        return view('admin.product.edit', compact('categories', 'product', 'properties'));
     }
 
     /**
@@ -104,6 +109,8 @@ class ProductController extends Controller
         }
 
         $product->update($params);
+        $product->properties()->sync($request->property_id);
+
         return redirect()->route('products.index')->with('success', 'Продукт обновлен');
     }
 
