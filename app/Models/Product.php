@@ -98,14 +98,14 @@ class Product extends Model
         return $this->recommend === 1;
     }
 
-    public function getPriceAttribute($value)
-    {
-        return round(CurrencyConversion::convert($value), 2);
-    }
-
     public function getCurrencyAttribute()
     {
         session('currency', 'RUB');
+    }
+
+    public function getImage()
+    {
+        return asset('storage/'.$this->image);
     }
 
     public function sluggable(): array

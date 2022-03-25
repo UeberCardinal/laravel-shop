@@ -58,15 +58,45 @@
             <tr>
                 <td colspan="3">Общая стоимость:</td>
                 <td>
-                    {{$order->getFullSum()}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}
+                    <h4>{{$order->getFullSum()}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</h4>
+                    @if(session()->has('fullSumWithoutPromocode'))
+                        <s>{{session('fullSumWithoutPromocode')}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</s>
+                        @endif
                 </td>
             </tr>
+
             </tbody>
         </table>
         <br>
         <div class="btn-group pull-right" role="group">
             <a type="button" class="btn btn-success" href="{{route('basketPlace')}}">Оформить заказ</a>
         </div>
+        <div style="display: inline-flex;"  role="group">
+            <form method="post" action="{{route('applyPromocode')}}">
+                @csrf
+                <div class="input-group mb-3">
+                    <input name="promocode" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Введите промокод на скидку</span>
+                    </div>
+                </div>
+                @if(\App\Models\Promocode::getPromocode())
+                    <div>
+                        <a class="btn btn-primary" href="{{route('removePromocode')}}" role="button">Удалить промокод</a>
+                    </div>
+                @else
+                <div class="btn-group pull-right" role="group">
+                    <input value="Применить" type="submit" class="btn btn-success">
+                </div>
+                    @endif
+
+            </form>
+
+
+        </div>
+
+
+
     </div>
 </div>
 @endsection

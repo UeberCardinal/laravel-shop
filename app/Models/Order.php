@@ -37,10 +37,17 @@ class Order extends Model
 
     public function getFullSum()
     {
+      //  session()->flush();
         $sum = 0;
         foreach ($this->skus as $sku) {
             $sum += $sku->price * ($sku->countInOrder ?? 1);
         }
+        if(session()->has('promocode')) {
+            $discountSum = self::calculateDiscount($sum);
+            session(['fullSumWithoutPromocode' => $sum]);
+            return $discountSum;
+        }
+
         return $sum;
     //    return session('full_order_sum', 0);
     }
@@ -69,6 +76,15 @@ class Order extends Model
         return true;
 
     }
+
+    public static function calculateDiscount($sum)
+    {
+        $promocode = session('promocode');
+        $discountSum = $sum - ($sum / 100 * $promocode->discount);
+        return $discountSum;
+    }
+
+
 
 
 }

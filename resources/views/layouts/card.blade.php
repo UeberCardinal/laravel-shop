@@ -12,7 +12,11 @@
                         <span class="badge badge-warning">Рекомендуемые</span>
                     @endif
                 </div>
+                @if(!is_null($sku->product->image))
+                    <img src="{{$sku->product->getImage()}}">
+                @else
                 <img src="https://dummyimage.com/400x600/decede/aeb2e8.jpg&text=Test">
+                @endif
                 <div class="caption">
                     <h3>{{$sku->product->__('name')}}</h3>
                     @isset($sku->product->properties)

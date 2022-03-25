@@ -77,9 +77,9 @@
             </div>
             <div class="col-lg-6"><p>Самые популярные товары</p>
                 <ul>
-                 {{--   @foreach($bestProducts as $bestProduct)
-                    <li><a href="{{route('product', [$bestProduct->category->slug, $bestProduct->slug])}}">{{$bestProduct->name}}</a></li>
-                    @endforeach--}}
+                    @foreach($bestSkus as $bestSku)
+                    <li><a href="{{route('sku', [$bestSku->product->category->slug, $bestSku->product->slug, $bestSku])}}">{{$bestSku->product->name}}</a></li>
+                    @endforeach
                 </ul>
             </div>
         </div>

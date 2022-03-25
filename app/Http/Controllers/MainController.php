@@ -17,31 +17,31 @@ class MainController extends Controller
     public function index(ProductsFilterRequest $request)
     {
 
-            $skusQuery = Sku::query();
+        $skusQuery = Sku::with(['product', 'product.category']);
 
-    /*        $productsQuery = Product::with('category');
+        if ($request->filled('price_from')) {
+            $skusQuery->where('price', '>=', $request->price_from);
+        }
 
-            if($request->filled('price_from')) {
-                $productsQuery->where('price', '>=', $request->price_from);
+        if ($request->filled('price_to')) {
+            $skusQuery->where('price', '<=', $request->price_to);
+        }
+
+        foreach (['hit', 'new', 'recommend'] as $field) {
+            if ($request->has($field)) {
+                $skusQuery->whereHas('product', function($query) use ($field){
+                    $query->$field();
+                });
             }
+        }
 
-            if($request->filled('price_to')) {
-                $productsQuery->where('price', '<=', $request->price_to);
-            }
+        //$products = $skusQuery->paginate(6);
+        $skus = $skusQuery->paginate(6)->withPath("?" .$request->getQueryString());
+        return view('index', compact('skus'));
 
-            foreach (['hit', 'new', 'recommend'] as $field) {
-                if ($request->has($field)) {
-                    $productsQuery->$field();
-                }
-            }
-            $
-            $products = $productsQuery->paginate(6);*/
-            $skus = $skusQuery->paginate(6);
-            return view('index', compact('skus'));
+        /*  $products = Product::paginate(6);
 
-      /*  $products = Product::paginate(6);
-
-        return view('index', compact('products', 'categories'));*/
+          return view('index', compact('products', 'categories'));*/
     }
 
     public function categories()
@@ -95,6 +95,8 @@ class MainController extends Controller
         session(['currency' => $currency->code]);
         return redirect()->back();
     }
+
+
 
 
 }

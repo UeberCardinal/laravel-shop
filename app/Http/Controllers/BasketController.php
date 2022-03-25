@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Promocode;
 use App\Models\Sku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,10 +64,26 @@ class BasketController extends Controller
         if ((new Basket())->saveOrder($request->name, $request->phone, $email)) {
             session()->flash('success', 'Товар принят в обработку');
             session()->forget('full_order_sum');
+            session()->forget('fullSumWithoutPromocode');
+            session()->forget('promocode');
         } else {
             session()->flash('warning', "Товар недоступен");
         }
 
         return redirect()->route('home.index');
+    }
+
+    public function applyPromocode(Request $request)
+    {
+        $promocode = Promocode::where('name', $request->promocode)->first();
+        session(['promocode' => $promocode]);
+        return back()->with('success', 'Промокод применен');
+    }
+
+    public function removePromocode()
+    {
+        session()->forget('promocode');
+        session()->forget('fullSumWithoutPromocode');
+        return redirect()->route('basket')->with('success', 'Промокод удален');
     }
 }

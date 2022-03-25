@@ -20,10 +20,11 @@
                         @foreach ($skus as $sku)
                             <tr>
                                 <td>
+
                                     <a href="{{ route('sku', [$sku->product->category->slug, $sku->product->slug, $sku]) }}">
                                         <img height="56px"
-                                             src="{{ Storage::url($sku->product->image) }}">
-                                        {{ $sku->name }}
+                                             src="{{ $sku->product->getImage()}}">
+                                        {{ $sku->product->name }}
                                     </a>
                                 </td>
                                 {{--@dd($order->skus->map->pivot->map->count)--}}

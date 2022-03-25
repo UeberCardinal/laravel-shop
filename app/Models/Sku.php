@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Services\CurrencyConversion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sku extends Model
 {
-    use HasFactory;
+
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['product_id', 'count', 'price'];
 
@@ -38,5 +41,12 @@ class Sku extends Model
     {
         return $this->pivot->count * $this->pivot->price;
     }
+
+    public function getPriceAttribute($value)
+    {
+        return round(CurrencyConversion::convert($value), 2);
+    }
+
+
 }
 

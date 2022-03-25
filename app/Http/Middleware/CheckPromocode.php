@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Order;
+use App\Models\Promocode;
 use Closure;
 use Illuminate\Http\Request;
 
-class BasketIsNotEmpty
+class CheckPromocode
 {
     /**
      * Handle an incoming request.
@@ -17,14 +17,11 @@ class BasketIsNotEmpty
      */
     public function handle(Request $request, Closure $next)
     {
-      //  dd(session('order')->products);
-        $order = session('order');
-
-        if (!is_null($order) && $order->getFullSum() > 0) {
+        $promocode = Promocode::where('name', $request->promocode)->get();
+        if ($promocode->count()) {
             return $next($request);
         }
-        session()->forget('order');
-        return redirect()->route('home.index')->with('warning', 'Ваша корзина пуста!');
+        return back()->with('error', 'Такого промокода не существует');
 
     }
 }
