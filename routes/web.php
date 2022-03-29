@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\MerchantController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\PropertyOptionController;
@@ -53,6 +54,8 @@ Route::middleware(['set_locale'])->group(function () {
                 Route::resource('products',ProductController::class);
                 Route::resource('products/{product}/skus',SkuController::class);
                 Route::resource('properties', PropertyController::class);
+                Route::resource('merchants', MerchantController::class);
+                Route::get('merchant/{merchant}/token',[MerchantController::class, 'updateToken'] )->name('merchants.update_token');
                 Route::resource('properties/{property}/property-options', PropertyOptionController::class);
                 Route::resource('coupon', CouponController::class);
             });
@@ -80,6 +83,7 @@ Route::middleware(['set_locale'])->group(function () {
     });
 
     Route::get('/{category}/{product}/{sku}', [MainController::class, 'sku'])->name('sku');
+
 
 });
 

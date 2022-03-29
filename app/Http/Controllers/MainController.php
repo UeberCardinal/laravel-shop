@@ -10,6 +10,7 @@ use App\Models\Models\Subscription;
 use App\Models\Product;
 use App\Models\Sku;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 
 class MainController extends Controller

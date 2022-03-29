@@ -49,4 +49,5 @@
     'recommend'  => request()->recommend,
 ])->links()}}
     </div>
+
 @endsection
