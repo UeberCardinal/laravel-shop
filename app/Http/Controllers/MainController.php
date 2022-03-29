@@ -16,7 +16,6 @@ class MainController extends Controller
 {
     public function index(ProductsFilterRequest $request)
     {
-
         $skusQuery = Sku::with(['product', 'product.category']);
 
         if ($request->filled('price_from')) {

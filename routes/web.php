@@ -2,8 +2,8 @@
 
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\PromocodeController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\PropertyOptionController;
 use App\Http\Controllers\Admin\SkuController;
@@ -54,7 +54,7 @@ Route::middleware(['set_locale'])->group(function () {
                 Route::resource('products/{product}/skus',SkuController::class);
                 Route::resource('properties', PropertyController::class);
                 Route::resource('properties/{property}/property-options', PropertyOptionController::class);
-                Route::resource('promocodes', PromocodeController::class);
+                Route::resource('coupon', CouponController::class);
             });
 
         });
@@ -67,8 +67,6 @@ Route::middleware(['set_locale'])->group(function () {
 
     Route::group(['prefix' => 'basket'], function (){
         Route::post('/add/{sku}', [BasketController::class, 'addToBasket'])->name('addToBasket');
-        Route::get('removepromocode', [BasketController::class, 'removePromocode'])->name('removePromocode');
-        Route::post('applypromocode', [BasketController::class, 'applyPromocode'])->name('applyPromocode')->middleware(CheckPromocode::class);
         Route::group([
             'middleware' => 'basket_not_empty',
         ], function () {
@@ -76,6 +74,7 @@ Route::middleware(['set_locale'])->group(function () {
             Route::get('/', [BasketController::class, 'basket'])->name('basket');
             Route::post('/place', [BasketController::class, 'basketConfirm'])->name('basketConfirm');
             Route::post('/delete/{sku}', [BasketController::class, 'removeFromBasket'])->name('removeFromBasket');
+            Route::post('/coupon', [BasketController::class, 'setCoupon'])->name('setCoupon');
         });
 
     });

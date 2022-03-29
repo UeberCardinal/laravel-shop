@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PromocodeRequest extends FormRequest
+class AddCouponRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,16 @@ class PromocodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5',
-            'discount' => 'required|numeric|min:1|max:100',
+            'coupon' => 'required|min:6|max:8|exists:coupons,code'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'coupon.*' => 'Такого купона не существует'
+        ];
+    }
+
+
 }

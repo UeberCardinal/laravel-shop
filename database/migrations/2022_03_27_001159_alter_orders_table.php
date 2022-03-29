@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePromocodesTable extends Migration
+class AlterOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreatePromocodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('promocodes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->integer('discount');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedInteger('coupon_id')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class CreatePromocodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promocodes');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('coupon_id');
+        });
     }
 }

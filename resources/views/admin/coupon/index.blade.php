@@ -4,7 +4,7 @@
 
         <div style="margin-top:15px; ">
         <div>
-            <a href="{{route('promocodes.create')}}"><button type="button" class="btn btn-success">Добавить новый промокод</button></a>
+            <a href="{{route('coupon.create')}}"><button type="button" class="btn btn-success">Добавить новую купон</button></a>
         </div>
             @if(\Illuminate\Support\Facades\Session::has('success'))
             <div class="alert alert-success" role="alert">
@@ -21,20 +21,21 @@
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Discount</th>
+                    <th scope="col">Код</th>
+                    <th scope="col">Описание</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($promocodes as $promocode)
+                @foreach($coupons as $coupon)
                 <tr>
-                    <th scope="row">{{$promocode->id}}</th>
-                    <td>{{$promocode->name}}</td>
-                    <td>{{$promocode->discount}}</td>
+                    <th scope="row">{{$coupon->id}}</th>
+                    <td>{{$coupon->code}}</td>
+                    <td>{{$coupon->description}}</td>
                     <td>
-                        <a class="btn btn-info" href="{{route('promocodes.edit', $promocode)}}"><i class="fas fa-pencil-alt"></i></a>
-                        <form method="post" action="{{route('promocodes.destroy', $promocode)}}">
+                        <a class="btn btn-info" href="{{route('coupon.edit', $coupon)}}"><i class="fas fa-pencil-alt"></i></a>
+                        <a class="btn btn-primary" href="{{route('coupon.show', $coupon)}}"><i class="fas fa-list-alt"></i></a>
+                        <form method="post" action="{{route('coupon.destroy', $coupon)}}">
                             @csrf
                             @method('delete')
                            <button onclick="return confirm('Подтвердите удаление')" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
@@ -47,6 +48,6 @@
 
                 </tbody>
             </table>
-            {{ $promocodes->links() }}
+            {{ $coupons->links() }}
         </div>
 @endsection

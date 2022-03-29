@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'phone', 'status', 'user_id','currency_id', 'sum'];
+    protected $fillable = ['name', 'phone', 'status','coupon_id', 'user_id','currency_id', 'sum'];
 
     public function skus()
     {
         return $this->belongsToMany(Sku::class)->withPivot('count', 'price')->withTimestamps();
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     public function currency()
@@ -35,17 +40,17 @@ class Order extends Model
         return $sum;
     }
 
-    public function getFullSum()
+    public function getFullSum($withCoupon = true)
     {
       //  session()->flush();
         $sum = 0;
         foreach ($this->skus as $sku) {
-            $sum += $sku->price * ($sku->countInOrder ?? 1);
+            $sum += $sku->price * $sku->countInOrder;
         }
-        if(session()->has('promocode')) {
-            $discountSum = self::calculateDiscount($sum);
-            session(['fullSumWithoutPromocode' => $sum]);
-            return $discountSum;
+
+        if ($withCoupon && $this->hasCoupon()){
+            $sum = $this->coupon->applyCost($sum, $this->currency);
+
         }
 
         return $sum;
@@ -77,12 +82,12 @@ class Order extends Model
 
     }
 
-    public static function calculateDiscount($sum)
+    public function hasCoupon()
     {
-        $promocode = session('promocode');
-        $discountSum = $sum - ($sum / 100 * $promocode->discount);
-        return $discountSum;
+
+        return $this->coupon;
     }
+
 
 
 

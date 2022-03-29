@@ -11,12 +11,18 @@ class Sku extends Model
 {
 
     use HasFactory, SoftDeletes;
-
+    protected $visible = ['id', 'count', 'price', 'product_name'];
     protected $fillable = ['product_id', 'count', 'price'];
+   // protected $guarded = ['created_at', 'updated_at', 'deleted_at', 'product_id'];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('count', '>', 0);
     }
 
     public function propertyOption()
@@ -45,6 +51,11 @@ class Sku extends Model
     public function getPriceAttribute($value)
     {
         return round(CurrencyConversion::convert($value), 2);
+    }
+
+    public function getProductNameAttribute()
+    {
+        return $this->product->name;
     }
 
 

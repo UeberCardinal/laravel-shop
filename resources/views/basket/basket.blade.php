@@ -57,44 +57,41 @@
             @endif
             <tr>
                 <td colspan="3">Общая стоимость:</td>
+                @if($order->hasCoupon())
                 <td>
+                    <h5><s>{{$order->getFullSum(false)}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</s></h5>
                     <h4>{{$order->getFullSum()}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</h4>
-                    @if(session()->has('fullSumWithoutPromocode'))
-                        <s>{{session('fullSumWithoutPromocode')}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</s>
-                        @endif
                 </td>
+                @else
+                    <td>
+                        <h4>{{$order->getFullSum()}} {{\App\Services\CurrencyConversion::getCurrencySymbol()}}</h4>
+                    </td>
+                @endif
             </tr>
 
             </tbody>
         </table>
+        @if(!$order->hasCoupon())
+        <div class="row">
+            <div class="form-inline pull-center">
+                <form method="post" action="{{route('setCoupon')}}">
+                    @csrf
+                    <label for="coupon">Добавить купон:</label>
+                    <input class="form-control" type="text" name="coupon">
+                    <button type="submit" class="btn btn-success">Применить</button>
+                </form>
+            </div>
+        </div>
+        @else
+            <div>Вы используете купон {{$order->coupon->code}}</div>
+        @endif
+        @error('coupon')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <br>
         <div class="btn-group pull-right" role="group">
             <a type="button" class="btn btn-success" href="{{route('basketPlace')}}">Оформить заказ</a>
         </div>
-        <div style="display: inline-flex;"  role="group">
-            <form method="post" action="{{route('applyPromocode')}}">
-                @csrf
-                <div class="input-group mb-3">
-                    <input name="promocode" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="basic-addon2">Введите промокод на скидку</span>
-                    </div>
-                </div>
-                @if(\App\Models\Promocode::getPromocode())
-                    <div>
-                        <a class="btn btn-primary" href="{{route('removePromocode')}}" role="button">Удалить промокод</a>
-                    </div>
-                @else
-                <div class="btn-group pull-right" role="group">
-                    <input value="Применить" type="submit" class="btn btn-success">
-                </div>
-                    @endif
-
-            </form>
-
-
-        </div>
-
 
 
     </div>
