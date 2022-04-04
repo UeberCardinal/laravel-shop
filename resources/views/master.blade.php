@@ -12,6 +12,7 @@
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/starter-template1.css')}}" rel="stylesheet">
+
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
