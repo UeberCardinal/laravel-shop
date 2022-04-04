@@ -49,7 +49,7 @@
     'recommend'  => request()->recommend,
 ])->links()}}
     </div>
-    <script type="text/javascript" src="{{asset('js/ajaxfilter.js')}}"></script>
+    <script src="{{asset('js/ajaxfilter.js')}}"></script>
 
 
 @endsection
